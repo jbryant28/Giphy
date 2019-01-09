@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <div class="container">
+    <h1>Car Search</h1>
+
+    <!-- Movies will get dumped here -->
+    <div id="cars-view"></div>
+
+    <form id="cars-form">
+      <label for="cars-input">Add a Movie, Yo!</label>
+      <input type="text" id="cars-input"><br>
+
+      <!-- Button triggers new movie to be added -->
+      <input id="add-cars" type="submit" value="Add a car, Yo!">
+    </form>
+
+  </div>
+
+  <div id="gifs-appear-here">
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    var cars = ["benz", "viper", "aston martin"];
+
+    function renderButtons() {
+
+
+      $("#cars-view").empty();
+
+
+      for (var i = 0; i < cars.length; i++) {
+
+
+        var a = $("<button>");
+
+        a.addClass("car");
+
+        a.attr("data-name", cars[i]);
+
+        a.text(cars[i]);
+
+        $("#cars-view").append(a);
+
+        console.log("123");
+      }
+    }
+    $("#add-cars").on("click", function (event) {
+      event.preventDefault();
+
+      var car = $("#cars-input").val().trim();
+
+
+
+      cars.push(car);
+      renderButtons();
+
+
+
+    });
+
+    renderButtons();
+
+
+    $("button").on("click", function () {
+
+      var car = $(this).attr("cars-input");
+
+      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        car + "&api_key=TLIzBhmJiMrsJxuMSvDgKqn3OynOPgKO&limit=10";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+
+      }).then(function (response) {
+
+        var results = response.data;
+
+for (var i = 0; i < results.length; i++) {
+
+  if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+    var gifDiv = $("<div>");
+
+    var rating = response.data;
+
+    for (var i = 0; i < results.length; i++) {
+
+      if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+        var gifDiv = $("<div>");
+
+        var rating = results[i].rating;
+
+        var p = $("<p>").text("Rating: " + rating);
+
+        var carImage = $("<img>");
+
+        carImage.attr("src", results[i].images.fixed_height.url);
+        carImage.attr("data-state", "still");
+                carImage.addClass("carGif");
+                carImage.attr("data-state", "still");
+                carImage.attr("data-still", staticSrc);
+                carImage.attr("data-animate", defaultAnimatedSrc);
+                carDiv.append(p);
+                carDiv.append(showImage);
+                // $("#gifArea").prepend(showDiv);
+
+
+
+
+                gifDiv.append(p);
+                gifDiv.append(carImage);
+
+                // $(document).on("click", ".carGif", pausePlayGifs);
+
+
+                $("#gifs-appear-here").prepend(gifDiv);
+
+              }
+            }
+          }
+        }
+      });
+    });
+
+  //   function pausePlayGifs() {
+  //      var state = $(this).attr("data-state");
+  //       if (state === "still") {
+  //         $(this).attr("src", $(this).attr("data-animate"));
+  //         $(this).attr("data-state", "animate");
+  //       } else {
+  //         $(this).attr("src", $(this).attr("data-still"));
+  //         $(this).attr("data-state", "still");
+  //   }
+  // }
+
+
+
+  </script>
+
+</body>
+
+</html>
